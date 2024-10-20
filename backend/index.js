@@ -1,7 +1,8 @@
 import express from "express"
 import mongoose from "mongoose"
 import dotenv from "dotenv"
-import todoroute from "../backend/routes/todo.route.js"
+import todoRoute from "../backend/routes/todo.route.js"
+import userRoute from "../backend/routes/user.route.js"
 
 const app = express()
 
@@ -19,7 +20,8 @@ try {
 
 // Routes
 app.use(express.json())
-app.use("/todo",todoroute)
+app.use("/todo",todoRoute)
+app.use("/user",userRoute)
 
 
 
