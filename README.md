@@ -1,1 +1,3 @@
-my self ayush and i going to create a fullsack todo app using MERN stack
+ZOD used for validation
+bcrypt used from password hassing
+jwt for token and cookies
