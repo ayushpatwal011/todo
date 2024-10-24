@@ -16,19 +16,26 @@ const createTodo = async (req, res) => {
 const getTodos = async (req, res) => {
     try {
         const todos = await Todo.find()
-        res.status(201).json({ message: "Todo is created Successfully", todos });
+        res.status(200).json({ message: "Todo is fetch Successfully", todos });
     }
     catch (error) {
         console.log(error)
-        res.status(400).json({ message: "Error in creating Todo" });
+        res.status(400).json({ message: "Error in fetching Todo" });
     }
 }
 const updateTodo = async (req, res) => {
     try {
-        const updateTodo = await Todo.findByIdAndUpdate(req.params.id, req.body, {
-            new: true
+        if (!req.params.id) {
+            return res.status(400).json({ message: "Todo ID is required" });
+        }
+        const todo = await Todo.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
         })
-        res.status(201).json({ message: "Todo is updated Successfully", updateTodo });
+
+        if (!todo) {
+            return res.status(404).json({ message: "Todo not found" });
+        }
+        res.status(201).json({ message: "Todo is updated Successfully", todo });
     }
     catch (error) {
         console.log(error)
@@ -36,9 +43,12 @@ const updateTodo = async (req, res) => {
     }
 }
 const deleteTodo = async (req, res) => {
-    try{
-        await Todo.findByIdAndDelete(req.params.id)
-        res.status(201).json({ message: "Todo is deleted Successfully"});
+    try {
+        const todo = await Todo.findByIdAndDelete(req.params.id)
+        if (!todo) {
+            return res.status(404).json({ message: "Todo not found" });
+        }
+        res.status(201).json({ message: "Todo is deleted Successfully" });
     }
     catch (error) {
         console.log(error)

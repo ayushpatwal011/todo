@@ -1,13 +1,20 @@
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Home from "./components/home"
+import Login from "./components/login"
+import SignUp from './components/signup'
+import PageNotFound from "./components/PageNotFound";
 
-import './App.css'
-
-function App() {
-
-  return (
-    <>
-       <div className='text-lg bg-blue-900 text-yellow-500 '>frontend</div>
-    </>
+function App(){
+  return(
+    <div>
+      <Routes>
+        <Route path="/" element={ <Home/>}/>
+        <Route path="/login" element={ <Login/>}/>
+        <Route path="/signup" element={ <SignUp/>}/>
+        <Route path="*" element={ <PageNotFound/>}/>
+      </Routes>
+    </div>
   )
 }
-
-export default App
+export default App;
