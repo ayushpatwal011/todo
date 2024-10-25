@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import { createTodo } from "../../../backend/controller/todo.controller"
+import toast from "react-hot-toast"
+import { useNavigate } from "react-router-dom"
 
 function Home() {
 
@@ -8,6 +9,8 @@ function Home() {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const [newTodo, setNewTodos] = useState("")
+
+    const navigateTo = useNavigate()
 
     useEffect(() => {
         const fetchTodos = async () => {
@@ -41,6 +44,7 @@ function Home() {
                 { withCredentials: true })
             console.log(response.data.newTodo)
             setTodos([...todos, response.data.newTodo])
+            toast.success("Todo Created Successfully")
         } catch (error) {
             setError("Failed to create todo")
         }
@@ -73,8 +77,23 @@ function Home() {
                 withCredentials: true
             })
             setTodos(todos.filter(t => t._id !== id))
+            toast.error("Todo Deleted")
         } catch (error) {
             setError("Failed to delete todo")
+        }
+    }
+
+    const logout = async () => {
+        try{
+            await axios.get("http://localhost:4001/user/logout", {
+                withCredentials: true
+            })
+            toast.success("Logged Out Successfully")
+            localStorage.removeItem("jwt")
+            navigateTo("/login")
+        }
+        catch(error){
+            toast.error("Error in Logout")
         }
     }
 
@@ -118,8 +137,12 @@ function Home() {
                     })}             
 
                 </ul>)}
-                <p className="text-center text-gray-500 text-sm mb-4"> {`${remainingTodos} remaining todos`}</p>
-                <button className="w-[80%] bg-purple-500 text-white rounded-md py-2 hover:bg-blue-600 transition">Logout</button>
+                <p className="text-center text-gray-600 text-sm mb-4"> {`${remainingTodos} remaining todos`}</p>
+                <button
+                onClick={()=> {logout()}}
+                 className="w-[80%] bg-purple-500 text-white rounded-md py-2 hover:bg-blue-600 transition"
+                 >
+                    Logout</button>
             </div>
         </div>
     </>)

@@ -3,7 +3,8 @@ import Todo from "../model/todo.model.js";
 const createTodo = async (req, res) => {
     const todo = new Todo({
         text: req.body.text,
-        completed: req.body.completed
+        completed: req.body.completed,
+        user: req.user._id
     });
     try {
         const newTodo = await todo.save();
@@ -15,7 +16,7 @@ const createTodo = async (req, res) => {
 }
 const getTodos = async (req, res) => {
     try {
-        const todos = await Todo.find()
+        const todos = await Todo.find({user:req.user._id})
         res.status(200).json({ message: "Todo is fetch Successfully", todos });
     }
     catch (error) {
