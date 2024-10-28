@@ -104,7 +104,7 @@ function Home() {
 
             <div className="bg-gray-200 max-w-lg lg:max-w-xl rounded-lg shadow-lg flex items-center justify-center  flex-col mx-8 sm:mx-auto p-6">
                 <h1 className="text-2xl font-bold mb-4 text-center">Todo App</h1>
-                <div className="flex mb-4  w-[80%]">
+                <div className="flex mb-4 ">
                     <input 
                     value={newTodo}
                     onChange={(e)=>{setNewTodos(e.target.value)}}
